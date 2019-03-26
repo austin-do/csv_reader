@@ -4,8 +4,6 @@ from datetime import datetime
 
 def main():
 	user = ""
-	success = []
-	kamron = []
 
 	with open('text21.csv') as csv_file:
 		csv_reader = csv.reader(csv_file, delimiter=',')
@@ -16,13 +14,13 @@ def main():
 				user = row[1]
 				print(f'new user: {row[1]}')
 			else:
-				s1 = '14:51:24'
-				s2 = '14:51:44'
-				FMT = '%H:%M:%S'
-				tdelta = datetime.strptime(s2, FMT) - datetime.strptime(s1, FMT)
-				print(tdelta)
+				time_find()
 				
 def time_find():
-	
+	s1 = '14:51:24'
+	s2 = '14:51:44'
+	FMT = '%H:%M:%S'
+	tdelta = datetime.strptime(s2, FMT) - datetime.strptime(s1, FMT)
+	print(tdelta)
 
 main()
