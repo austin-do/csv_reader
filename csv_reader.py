@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from datetime import timedelta
 
 def main():
 	users = split_users()
@@ -27,21 +28,27 @@ def split_users():
 def find_login_times(users):
 	pass_entered = []
 	pass_submitted = []
-	total_time = "00:00:00"
+	total_time = 0
+	count = 0
 	for row in users[0]:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
 			pass_submitted = row
 		if row[5] == "login":
-			time_find(pass_entered[0],pass_submitted[0])
+			count += 1
+			total_time = time_find(total_time,pass_entered[0],pass_submitted[0])
+	t = total_time/count
+	s = timedelta(seconds = t)
+	print(s)
+	return(s)
 	
 #Subtracts and returns two time stamps
-def time_find(total_time, last_enter):
-	s1 = '14:51:24'
-	s2 = '14:51:44'
-	FMT = '%H:%M:%S'
+def time_find(total_time, pass_entered, pass_submitted):
+	s1 = pass_entered
+	s2 = pass_submitted
+	FMT = '%Y-%m-%d %H:%M:%S'
 	tdelta = datetime.strptime(s2, FMT) - datetime.strptime(s1, FMT)
-	print(total_time + " " + last_enter + " ")
-	return(tdelta)
+	total_time = total_time + tdelta.total_seconds()
+	return(total_time)
 
 main()
