@@ -28,19 +28,32 @@ def split_users():
 def find_login_times(users):
 	pass_entered = []
 	pass_submitted = []
-	total_time = 0
-	count = 0
+	success_time = 0
+	failure_time = 0
+	success_count = 0
+	failure_count = 0
+	
 	for row in users[0]:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
 			pass_submitted = row
 		if row[5] == "login":
-			count += 1
-			total_time = time_find(total_time,pass_entered[0],pass_submitted[0])
-	t = total_time/count
-	s = timedelta(seconds = t)
-	print(s)
-	return(s)
+			if row[6] == "success":
+				success_count += 1
+				success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
+			else:
+				failure_count += 1
+				failure_time = time_find(failure_time,pass_entered[0],pass_submitted[0])
+			
+	s = success_time/success_count
+	f = failure_time/failure_count
+	
+	returnval = []
+	returnval.append(timedelta(seconds = s))
+	returnval.append(timedelta(seconds = f))
+	
+	print(returnval)
+	return(returnval)
 	
 #Subtracts and returns two time stamps
 def time_find(total_time, pass_entered, pass_submitted):
