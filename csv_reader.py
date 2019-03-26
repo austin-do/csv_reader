@@ -6,7 +6,8 @@ def main():
 	time_find()
 	for row in users[0]:
 		print(row[1])
-	
+
+#Puts users into 2 dimensional array with all 1st user log data at arr[0]
 def split_users():
 	user = ""
 	users = []
@@ -17,7 +18,6 @@ def split_users():
 		
 		for row in csv_reader:
 			if row[1] != user:
-				print(f'new user: {row[1]}')
 				users.append([])
 				user = row[1]
 				count +=1
@@ -25,7 +25,8 @@ def split_users():
 			else:
 				users[count].append(row)
 	return users
-	
+
+#Subtracts and returns two time stamps
 def time_find():
 	s1 = '14:51:24'
 	s2 = '14:51:44'
