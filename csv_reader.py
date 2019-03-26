@@ -3,9 +3,12 @@ from datetime import datetime
 from datetime import timedelta
 
 def main():
+	text_processor()
+
+def text_processor():
 	users = split_users()
 	find_login_times(users)
-
+	
 #Puts users into 2 dimensional array with all 1st user log data at arr[0]
 def split_users():
 	user = ""
@@ -25,7 +28,9 @@ def split_users():
 				users[count].append(row)
 	return users
 
+#finds average logins of success/failure for a user
 def find_login_times(users):
+	#trackers
 	pass_entered = []
 	pass_submitted = []
 	success_time = 0
@@ -41,6 +46,7 @@ def find_login_times(users):
 			if row[6] == "success":
 				success_count += 1
 				success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
+			#if it's a failure
 			else:
 				failure_count += 1
 				failure_time = time_find(failure_time,pass_entered[0],pass_submitted[0])
@@ -55,7 +61,7 @@ def find_login_times(users):
 	print(returnval)
 	return(returnval)
 	
-#Subtracts and returns two time stamps
+#Subtracts values and then adds to total returns as int. Used in find_login_times()
 def time_find(total_time, pass_entered, pass_submitted):
 	s1 = pass_entered
 	s2 = pass_submitted
