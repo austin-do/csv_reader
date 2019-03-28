@@ -44,15 +44,21 @@ def find_text_login_times(users):
 	failure_time = 0
 	success_count = 0
 	failure_count = 0
-	print(users[0][1])
+	
 	for row in users:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
 			pass_submitted = row
 		if row[5] == "login":
 			if row[6] == "success":
-				success_count += 1
-				success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
+				#if login time was over an hour, ignore.
+				if time_find(success_time,pass_entered[0],pass_submitted[0]) > 3600:
+					pass_entered =  []
+					pass_submitted = []
+					good_login = []
+				else:
+					success_count += 1
+					success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
 			#if it's a failure
 			else:
 				failure_count += 1
@@ -74,7 +80,6 @@ def find_text_login_times(users):
 	returnval.append(str(timedelta(seconds = s)))
 	returnval.append(str(timedelta(seconds = f)))
 	
-	print(returnval)
 	return(returnval)
 
 #finds average logins of success/failure for a user (images)
@@ -88,7 +93,6 @@ def find_image_login_times(users):
 	success_count = 0
 	failure_count = 0
 	
-	print(users[0][1])
 	for row in users:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
@@ -96,8 +100,14 @@ def find_image_login_times(users):
 			good_login = row
 		if row[5] == "login":
 			if row[6] == "success":
-				success_count += 1
-				success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
+				#if login time was over an hour, ignore.
+				if time_find(success_time,pass_entered[0],pass_submitted[0]) > 3600:
+					pass_entered =  []
+					pass_submitted = []
+					good_login = []
+				else:
+					success_count += 1
+					success_time = time_find(success_time,pass_entered[0],pass_submitted[0])
 			#if it's a failure
 			else:
 				failure_count += 1
@@ -118,7 +128,6 @@ def find_image_login_times(users):
 	returnval.append(str(timedelta(seconds = s)))
 	returnval.append(str(timedelta(seconds = f)))
 	
-	print(returnval)
 	return(returnval)
 	
 #Subtracts values and then adds to total returns as int. Used in find_login_times()
