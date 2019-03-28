@@ -8,11 +8,13 @@ def main():
 
 def text_processor():
 	users = split_users('text21.csv')
-	find_text_login_times(users)
+	for user in users:
+		find_text_login_times(user)
 	
 def image_processor():
 	users = split_users('imagept21.csv')
-	find_image_login_times(users)
+	for user in users:
+		find_image_login_times(user)
 	
 #Puts users into 2 dimensional array with all 1st user log data at arr[0]
 def split_users(fn):
@@ -33,7 +35,7 @@ def split_users(fn):
 				users[count].append(row)
 	return users
 
-#finds average logins of success/failure for a user
+#finds average logins of success/failure for a user (text)
 def find_text_login_times(users):
 	#trackers
 	pass_entered = []
@@ -42,8 +44,8 @@ def find_text_login_times(users):
 	failure_time = 0
 	success_count = 0
 	failure_count = 0
-	
-	for row in users[0]:
+	print(users[0][1])
+	for row in users:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
 			pass_submitted = row
@@ -56,16 +58,26 @@ def find_text_login_times(users):
 				failure_count += 1
 				failure_time = time_find(failure_time,pass_entered[0],pass_submitted[0])
 			
-	s = success_time/success_count
-	f = failure_time/failure_count
+	try:		
+		s = success_time/success_count
+	except:
+		s = 0
+	try:
+		f = failure_time/failure_count
+	except:
+		f = 0
 	
 	returnval = []
-	returnval.append(timedelta(seconds = s))
-	returnval.append(timedelta(seconds = f))
+	returnval.append(success_count + failure_count)
+	returnval.append(success_count)
+	returnval.append(failure_count)
+	returnval.append(str(timedelta(seconds = s)))
+	returnval.append(str(timedelta(seconds = f)))
 	
+	print(returnval)
 	return(returnval)
 
-#finds average logins of success/failure for a user
+#finds average logins of success/failure for a user (images)
 def find_image_login_times(users):
 	#trackers
 	pass_entered = []
@@ -76,7 +88,8 @@ def find_image_login_times(users):
 	success_count = 0
 	failure_count = 0
 	
-	for row in users[0]:
+	print(users[0][1])
+	for row in users:
 		if row[5] == "enter":
 			pass_entered = pass_submitted
 			pass_submitted = good_login
@@ -89,14 +102,23 @@ def find_image_login_times(users):
 			else:
 				failure_count += 1
 				failure_time = time_find(failure_time,pass_entered[0],pass_submitted[0])
-			
-	s = success_time/success_count
-	f = failure_time/failure_count
+	try:		
+		s = success_time/success_count
+	except:
+		s = 0
+	try:
+		f = failure_time/failure_count
+	except:
+		f = 0
 	
 	returnval = []
-	returnval.append(timedelta(seconds = s))
-	returnval.append(timedelta(seconds = f))
+	returnval.append(success_count + failure_count)
+	returnval.append(success_count)
+	returnval.append(failure_count)
+	returnval.append(str(timedelta(seconds = s)))
+	returnval.append(str(timedelta(seconds = f)))
 	
+	print(returnval)
 	return(returnval)
 	
 #Subtracts values and then adds to total returns as int. Used in find_login_times()
